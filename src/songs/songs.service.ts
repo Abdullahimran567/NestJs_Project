@@ -30,10 +30,12 @@ export class SongsService {
         return `Adding new song to data base ${data.name }`
     }
 
-    replaceSong(id : number , data : {name : string , artist : string}) {
+    replaceSong(id : number , data : UpdateSong) {
         let index = this.songs.findIndex(i => i.id == id)
-        this.songs[index] = {id : id , ...data}
-
+        if(index == -1) {
+            throw new NotFoundException("Song not found");
+        }
+        this.songs[index] = {...this.songs[index] , ...data}
         return `Replacing song with id ${id}`
     }
 
@@ -64,3 +66,6 @@ export class SongsService {
         return
     }
 }
+
+
+
